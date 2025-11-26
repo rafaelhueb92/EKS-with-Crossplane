@@ -1,0 +1,1 @@
+kubectl create deploy nginx --image nginx --replicas 1 --dry-run=client -o yaml > ../samples/ingress-deployment.yml
