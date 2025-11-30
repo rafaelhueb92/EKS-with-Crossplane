@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/rafaelhueb92/EKS-with-Crossplane
-    targetRevision: HEAD
+    targetRevision: main
     path: 03-argocd/manifests/.
   destination:
     server: https://kubernetes.default.svc
