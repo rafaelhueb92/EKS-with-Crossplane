@@ -17,7 +17,7 @@ resource "helm_release" "crossplane" {
 
   depends_on = [
     aws_iam_role.crossplane,
-    aws_iam_role_policy_attachment.crossplane_policy_attach, # if you have one
+    aws_iam_role_policy_attachment.crossplane_policy_attach
   ]
 
 }
