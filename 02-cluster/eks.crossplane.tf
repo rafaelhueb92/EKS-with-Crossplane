@@ -6,19 +6,20 @@ resource "helm_release" "crossplane" {
   namespace        = "crossplane-system"
   create_namespace = true
 
-  set {
-      name  = "serviceAccount.create"
-      value = true
-  }
-  
-  set{
-      name  = "serviceAccount.name"
-      value = "crossplane"
-  }
+  values = [<<-EOF
+    serviceAccount:
+      create: true
+      name: crossplane
+      annotations:
+        eks.amazonaws.com/role-arn: ${aws_iam_role.crossplane.arn}
+  EOF
+  ]
 
-  set {
-      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-      value = aws_iam_role.crossplane.arn
-  }
-  
+  depends_on = [
+    aws_iam_role.crossplane,
+    aws_iam_role_policy_attachment.crossplane_policy_attach, # if you have one
+  ]
+
 }
+
+

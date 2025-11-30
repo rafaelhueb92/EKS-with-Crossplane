@@ -12,7 +12,7 @@ terraform {
 
   backend "s3" {
     bucket = "backend-tf-180294221572"
-    key    = "platform-crossplane/cluster/terraform.tfstate"
+    key    = "platform-crossplane/eks-cluster/terraform.tfstate"
     region = "us-east-1"
     use_lockfile = true
   }
