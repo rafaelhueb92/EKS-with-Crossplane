@@ -7,8 +7,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "not-so-simple-ecommerce-terraform-state-files-180294221572"
-    key    = "networking/terraform.tfstate"
+    bucket = "backend-tf-180294221572"
+    key    = "platform-crossplane/networking/terraform.tfstate"
     region = "us-east-1"
     use_lockfile = true
   }

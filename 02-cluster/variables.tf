@@ -13,7 +13,7 @@ variable "auth" {
 variable "tags" { 
     type = map(string)
     default = {
-        Project = "eks-express"
+        Project = "eks-crossplane"
         Environment = "Production"
     }
 }
@@ -42,8 +42,8 @@ variable "eks_cluster" {
     })
 
         default = {
-        name = "eks-express-cluster"
-        role_name = "eks-express-role"
+        name = "eks-crossplane-cluster"
+        role_name = "eks-crossplane-role"
         version = "1.32"
         enabled_cluster_log_types = [
                 "api",
@@ -56,8 +56,8 @@ variable "eks_cluster" {
             authentication_mode = "API_AND_CONFIG_MAP"
         }
         node_group = {
-            name = "eks-express-node-group"
-            role_name = "eks-express-node-grouprole"
+            name = "eks-crossplane-node-group"
+            role_name = "eks-crossplane-node-grouprole"
             instance_types = [
                 "t3.medium"
             ]

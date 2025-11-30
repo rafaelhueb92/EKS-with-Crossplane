@@ -6,11 +6,11 @@ data "aws_subnets" "private" {
 
   filter {
     name   = "tag:Project"
-    values = ["eks-express"]
+    values = ["eks-crossplane"]
   }
 
   filter {
     name   = "tag:Purpose"
-    values = ["eks-express-cluster"]
+    values = ["eks-crossplane-cluster"]
   }
 }

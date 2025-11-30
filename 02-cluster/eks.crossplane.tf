@@ -1,9 +1,10 @@
-resource "helm_release" "load_balacner_controller" {
-  name       = "aws-load-balancer-controller"
-  repository = "https://aws.github.io/eks-charts"
-  chart      = "aws-load-balancer-controller"
-  version    = "1.13.0"
-  namespace  = "kube-system"
+
+resource "helm_release" "crossplane" {
+  name             = "crossplane"
+  repository       = "https://charts.crossplane.io/stable"
+  chart            = "crossplane"
+  namespace        = "crossplane-system"
+  create_namespace = true
 
   set {
       name  = "clusterName"
@@ -27,12 +28,12 @@ resource "helm_release" "load_balacner_controller" {
 
   set{
       name  = "serviceAccount.name"
-      value = "aws-load-balancer-controller"
+      value = "crossplane"
   }
 
   set {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-      value = aws_iam_role.load_balancer_controller.arn
+      value = aws_iam_role.crossplane.arn
   }
   
 }

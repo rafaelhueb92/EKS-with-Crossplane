@@ -19,7 +19,7 @@ output "eks_cluster_certificate_authority_data" {
 }
 
 output "karpenter_node_role_name" {
-    value = aws_iam_role.eks_cluster_node_group_name.name
+    value = aws_iam_role.eks_cluster_node_group.name
 }
 
 output "eks_cluster_name" {
