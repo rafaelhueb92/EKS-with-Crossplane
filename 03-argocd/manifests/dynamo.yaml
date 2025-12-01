@@ -1,12 +1,10 @@
 apiVersion: dynamodb.aws.upbound.io/v1beta1
 kind: Table
 metadata:
-  name: example_crossplane
+  name: example-crossplane
   annotations:
     meta.upbound.io/example-id: dynamodb/v1beta1/table
 spec:
-  providerConfigRef:
-    name: default
   forProvider:
     region: us-west-1
     attribute:
@@ -33,3 +31,5 @@ spec:
       Environment: production
       Name: dynamodb-table-1
     writeCapacity: 20
+  providerConfigRef:
+    name: default

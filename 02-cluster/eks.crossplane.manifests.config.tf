@@ -32,3 +32,26 @@ resource "kubernetes_service_account_v1" "crossplane" {
   ]
 
 }
+
+resource "kubernetes_manifest" "crossplane_aws_runtime_config" {
+  manifest = {
+    apiVersion = "pkg.crossplane.io/v1beta1"
+    kind       = "DeploymentRuntimeConfig"
+    metadata = {
+      name = "aws-irsa-config"
+    }
+    spec = {
+      serviceAccountTemplate = {
+        metadata = {
+          annotations = {
+            "eks.amazonaws.com/role-arn" = aws_iam_role.crossplane.arn
+          }
+        }
+      }
+    }
+  }
+  depends_on = [
+    helm_release.crossplane
+  ]
+
+}

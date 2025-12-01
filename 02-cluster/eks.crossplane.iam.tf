@@ -14,7 +14,7 @@ resource "aws_iam_role" "crossplane" {
           StringLike = {
                  "${local.eks_oidc_url}:sub" = [
                   "system:serviceaccount:crossplane-system:crossplane",
-                  "system:serviceaccount:crossplane-system:provider-aws-s3-*"
+                  "system:serviceaccount:crossplane-system:provider-aws-*"
                  ]
                  "${local.eks_oidc_url}:aud" = "sts.amazonaws.com"
                
