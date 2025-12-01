@@ -5,6 +5,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dynamodb/v1beta1/table
 spec:
+  providerConfigRef:
+    name: default
   forProvider:
     region: us-west-1
     attribute:
