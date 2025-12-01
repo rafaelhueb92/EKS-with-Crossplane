@@ -1,3 +1,9 @@
+resource "kubernetes_namespace_v1" "crossplane_system" {
+  metadata {
+    name = "crossplane-system"
+  }
+}
+
 resource "kubernetes_service_account_v1" "crossplane" {
   metadata {
     name      = "crossplane"
@@ -6,7 +12,6 @@ resource "kubernetes_service_account_v1" "crossplane" {
     annotations = {
       "meta.helm.sh/release-name"      = "crossplane"
       "meta.helm.sh/release-namespace" = "crossplane-system"
-      # Add your IRSA annotation here:
       "eks.amazonaws.com/role-arn"     = aws_iam_role.crossplane.arn
     }
 
@@ -17,8 +22,13 @@ resource "kubernetes_service_account_v1" "crossplane" {
       "app.kubernetes.io/managed-by"  = "Helm"
       "app.kubernetes.io/name"        = "crossplane"
       "app.kubernetes.io/part-of"     = "crossplane"
-      "app.kubernetes.io/version"     = "2.1.1"
-      "helm.sh/chart"                 = "crossplane-2.1.1"
     }
   }
+
+  depends_on = [
+    aws_eks_cluster.this,
+    aws_eks_node_group.this,
+    kubernetes_namespace_v1.crossplane_system
+  ]
+
 }

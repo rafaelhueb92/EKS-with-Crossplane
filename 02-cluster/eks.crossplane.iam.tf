@@ -11,8 +11,11 @@ resource "aws_iam_role" "crossplane" {
           Federated = aws_iam_openid_connect_provider.kubernetes.arn
         }
         Condition = {
-          StringEquals = {
-                 "${local.eks_oidc_url}:sub" = "system:serviceaccount:crossplane-system:provider-aws-*"
+          StringLike = {
+                 "${local.eks_oidc_url}:sub" = [
+                  "system:serviceaccount:crossplane-system:crossplane",
+                  "system:serviceaccount:crossplane-system:provider-aws-s3-*"
+                 ]
                  "${local.eks_oidc_url}:aud" = "sts.amazonaws.com"
                
           }
