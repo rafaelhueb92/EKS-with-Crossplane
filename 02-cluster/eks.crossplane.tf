@@ -1,4 +1,3 @@
-
 resource "helm_release" "crossplane" {
   name             = "crossplane"
   repository       = "https://charts.crossplane.io/stable"
@@ -6,18 +5,20 @@ resource "helm_release" "crossplane" {
   namespace        = "crossplane-system"
   create_namespace = true
 
-  values = [<<-EOF
-    serviceAccount:
-      create: true
-      name: crossplane
-      annotations:
-        eks.amazonaws.com/role-arn: ${aws_iam_role.crossplane.arn}
-  EOF
-  ]
+  set {
+      name  = "serviceAccount.create"
+      value = true
+  }
+
+  set{
+      name  = "serviceAccount.name"
+      value = "crossplane"
+  }
 
   depends_on = [
     aws_iam_role.crossplane,
-    aws_iam_role_policy_attachment.crossplane_policy_attach
+    aws_iam_role_policy_attachment.crossplane_policy_attach,
+    kubernetes_service_account_v1.crossplane
   ]
 
 }

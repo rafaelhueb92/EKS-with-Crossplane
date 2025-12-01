@@ -12,7 +12,7 @@ resource "aws_iam_role" "crossplane" {
         }
         Condition = {
           StringEquals = {
-                 "${local.eks_oidc_url}:sub" = "system:serviceaccount:crossplane-system:crossplane"
+                 "${local.eks_oidc_url}:sub" = "system:serviceaccount:crossplane-system:provider-aws-*"
                  "${local.eks_oidc_url}:aud" = "sts.amazonaws.com"
                
           }
