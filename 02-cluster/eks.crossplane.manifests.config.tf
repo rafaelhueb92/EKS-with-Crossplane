@@ -33,25 +33,49 @@ resource "kubernetes_service_account_v1" "crossplane" {
 
 }
 
-resource "kubernetes_manifest" "crossplane_aws_runtime_config" {
-  manifest = {
-    apiVersion = "pkg.crossplane.io/v1beta1"
-    kind       = "DeploymentRuntimeConfig"
-    metadata = {
-      name = "aws-irsa-config"
-    }
-    spec = {
-      serviceAccountTemplate = {
-        metadata = {
-          annotations = {
-            "eks.amazonaws.com/role-arn" = aws_iam_role.crossplane.arn
+resource "null_resource" "crossplane_aws_runtime_config" {
+  triggers = {
+    role_arn = aws_iam_role.crossplane.arn
+    manifest_hash = md5(jsonencode({
+      apiVersion = "pkg.crossplane.io/v1beta1"
+      kind       = "DeploymentRuntimeConfig"
+      metadata = {
+        name = "aws-irsa-config"
+      }
+      spec = {
+        serviceAccountTemplate = {
+          metadata = {
+            annotations = {
+              "eks.amazonaws.com/role-arn" = aws_iam_role.crossplane.arn
+            }
           }
         }
       }
-    }
+    }))
   }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      cat <<EOF | kubectl apply -f -
+      apiVersion: pkg.crossplane.io/v1beta1
+      kind: DeploymentRuntimeConfig
+      metadata:
+        name: aws-irsa-config
+      spec:
+        serviceAccountTemplate:
+          metadata:
+            annotations:
+              eks.amazonaws.com/role-arn: ${aws_iam_role.crossplane.arn}
+      EOF
+    EOT
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "kubectl delete deploymentruntimeconfig aws-irsa-config --ignore-not-found=true"
+  }
+
   depends_on = [
     helm_release.crossplane
   ]
-
 }
