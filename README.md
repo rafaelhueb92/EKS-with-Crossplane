@@ -1,4 +1,3 @@
-````markdown
 # EKS With Crossplane
 
 This project sets up **Amazon EKS** with **Crossplane** and **ArgoCD** for **GitOps**.
@@ -15,22 +14,10 @@ ArgoCD uses this repository as the **Source of Truth (SoT)**, reconciling manife
 
 Create VPC, subnets, Internet Gateway, and NAT Gateway:
 
-```bash
+````bash
 cd 01-networking
 terraform init
 terraform apply -auto-approve
-```
-````
-
-### 2. EKS Cluster
-
-Provision the EKS cluster and IRSA configurations:
-
-```bash
-cd 02-cluster
-terraform init
-terraform apply -auto-approve
-```
 
 ### 3. ArgoCD Access
 
@@ -41,7 +28,7 @@ Retrieve the ArgoCD admin password:
 ```bash
 cd 03-argocd/scripts
 ./loging-argocd.sh
-```
+````
 
 ## GitOps Workflow
 
